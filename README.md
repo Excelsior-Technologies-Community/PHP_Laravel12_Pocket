@@ -922,4 +922,7 @@ PHP_Laravel12_Pocket/
 ```
 
 Your PHP_Laravel12_Pocket Project is now ready!
+<<<<<<< HEAD
 
+=======
+>>>>>>> development

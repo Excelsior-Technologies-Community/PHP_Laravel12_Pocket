@@ -1,8 +1,8 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\WalletController;
-use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -10,6 +10,11 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 */
 
+/*
+|--------------------------------------------------------------------------
+| Welcome Page
+|--------------------------------------------------------------------------
+*/
 Route::get('/', function () {
     return view('welcome');
 });
@@ -28,32 +33,60 @@ Route::get('/dashboard', [WalletController::class, 'index'])
 | Authenticated Routes
 |--------------------------------------------------------------------------
 */
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth'])->group(function () {
 
     /*
-    |--------------------------
+    |--------------------------------------------------------------------------
     | Profile Routes
-    |--------------------------
+    |--------------------------------------------------------------------------
     */
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/profile', [ProfileController::class, 'edit'])
+        ->name('profile.edit');
+
+    Route::patch('/profile', [ProfileController::class, 'update'])
+        ->name('profile.update');
+
+    Route::delete('/profile', [ProfileController::class, 'destroy'])
+        ->name('profile.destroy');
 
     /*
-    |--------------------------
-    | Wallet Routes
-    |--------------------------
+    |--------------------------------------------------------------------------
+    | Wallet Dashboard
+    |--------------------------------------------------------------------------
     */
-    Route::get('/wallet', [WalletController::class, 'index'])->name('wallet');
+    Route::get('/wallet', [WalletController::class, 'index'])
+        ->name('wallet');
 
-    Route::post('/add-money', [WalletController::class, 'addMoney'])->name('wallet.add');
-    Route::post('/deduct-money', [WalletController::class, 'deductMoney'])->name('wallet.deduct');
-    Route::post('/transfer', [WalletController::class, 'transfer'])->name('wallet.transfer');
+    /*
+    |--------------------------------------------------------------------------
+    | Wallet Actions
+    |--------------------------------------------------------------------------
+    */
+
+    // Add Money
+    Route::post('/add-money', [WalletController::class, 'addMoney'])
+        ->name('wallet.add');
+
+    // Deduct Money
+    Route::post('/deduct-money', [WalletController::class, 'deductMoney'])
+        ->name('wallet.deduct');
+
+    // Transfer Money
+    Route::post('/transfer', [WalletController::class, 'transfer'])
+        ->name('wallet.transfer');
+
+    /*
+    |--------------------------------------------------------------------------
+    | Transaction Delete
+    |--------------------------------------------------------------------------
+    */
+    Route::delete('/transaction/{transaction}', [WalletController::class, 'destroy'])
+        ->name('transaction.delete');
 });
 
 /*
 |--------------------------------------------------------------------------
-| Auth Routes (Breeze)
+| Breeze Authentication Routes
 |--------------------------------------------------------------------------
 */
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
