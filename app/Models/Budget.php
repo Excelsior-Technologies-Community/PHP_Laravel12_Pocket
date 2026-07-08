@@ -5,20 +5,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Wallet extends Model
+class Budget extends Model
 {
     use HasFactory;
 
-    protected $table = 'wallets';
+    protected $table = 'budgets';
 
     protected $fillable = [
         'user_id',
-        'balance',
-        'currency'
+        'amount_limit',
+        'month_year'
     ];
 
     protected $casts = [
-        'balance' => 'decimal:2',
+        'amount_limit' => 'decimal:2',
     ];
 
     public function user()
